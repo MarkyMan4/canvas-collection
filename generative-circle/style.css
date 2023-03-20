@@ -1,0 +1,23 @@
+html {
+    height: 100%;
+}
+
+body {
+    background-image: linear-gradient(black, rgb(60, 5, 162));
+    height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+}
+
+#canvas {
+    background-color: black;
+    border: 1px solid white;
+}
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    text-align: center;
+}

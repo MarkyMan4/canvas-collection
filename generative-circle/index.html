@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Bounce</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="centered">
+        <button onclick="toggleRunning()">run</button> | 
+        <label>show trails</label>
+        <input type="checkbox" onchange="toggleTrails()"> | 
+        <label>number of balls</label>
+        <input id="num-balls-inp" type="number" onchange="setNumBalls()" value="180"> | 
+        <label>ball radius</label>
+        <input id="ball-radius-inp" type="number" onchange="setBallRadius()" value="4"> | 
+        <label>ball speed</label>
+        <input id="ball-speed-inp" type="number" onchange="setBallSpeed()" value="5">
+    </div>
+
+    <div class="centered">
+        <canvas id="canvas" width="800" height="800"></canvas>
+    </div>
+    <script src="./main.js"></script>
+</body>
+</html>

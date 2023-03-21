@@ -7,6 +7,7 @@ canvas.height = window.innerHeight;
 let balls = [];
 const numBallsToSpawn = 75;
 const colors = ['#4287f5', '#f5425d', '#06ba45', '#e09b10', '#8715eb', '#f0cf2e', '#e854e3'];
+let clearScreen = true;
 
 class Ball {
     constructor(x, y, radius, color) {
@@ -66,7 +67,10 @@ const drawAndUpdateBalls = () => {
 }
 
 const animate = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(clearScreen) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
     drawAndUpdateBalls();
     
     // spawn more balls if the amount on screen is less than 20

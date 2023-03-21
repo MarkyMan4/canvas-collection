@@ -7,7 +7,6 @@ canvas.height = window.innerHeight;
 let balls = [];
 const numBallsToSpawn = 75;
 const colors = ['#4287f5', '#f5425d', '#06ba45', '#e09b10', '#8715eb', '#f0cf2e', '#e854e3'];
-let lastSpawnTime = new Date();
 
 class Ball {
     constructor(x, y, radius, color) {
@@ -71,10 +70,8 @@ const animate = () => {
     drawAndUpdateBalls();
     
     // spawn more balls if the amount on screen is less than 20
-    let currentTime = new Date();
     if(balls.length <= 20) {
         spawnBalls();
-        lastSpawnTime = currentTime;
     }
 
     requestAnimationFrame(animate);

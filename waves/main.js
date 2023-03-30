@@ -39,7 +39,7 @@ class Particle {
     }
 
     update() {
-        this.x += this.xVel + Math.sin(this.y * Math.PI / 180) //+ Math.random() * 15 - 7.5;
+        this.x += this.xVel + Math.cos(this.y * Math.PI / 180) //+ Math.random() * 15 - 7.5;
         this.y += this.yVel * Math.sin(this.x * Math.PI / 180) //+ Math.random() * 15 - 7.5;
 
         this.trail.push({x: this.x, y: this.y});

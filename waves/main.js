@@ -20,16 +20,16 @@ class Particle {
     }
 
     draw(ctx) {
-        // draw the trail
-        ctx.beginPath();
-        ctx.moveTo(this.trail[0].x, this.trail[0].y);
-        
         // draw the particle
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         ctx.fillStyle = 'white';
         ctx.fill();
-
+        
+        // draw the trail
+        ctx.beginPath();
+        ctx.moveTo(this.trail[0].x, this.trail[0].y);
+        
         this.trail.forEach(point => {
             ctx.lineTo(point.x, point.y);
         })

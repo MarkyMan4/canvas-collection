@@ -53,7 +53,7 @@ class Particle {
 let particles = [];
 
 const initparticles = () => {
-    for(let i = 0; i < 100; i++) {
+    for(let i = 0; i < 200; i++) {
         let particle = new Particle(Math.random() * canvas.width, Math.random() * canvas.height);
         particles.push(particle);
     }

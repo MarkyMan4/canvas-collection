@@ -5,6 +5,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let crawlers = [];
+const colors = ['#fca103', '#03a9fc', '#03fc84', '#fc030b', '#9f5eff', '#fff45e'];
 
 class Crawler {
     constructor(x, y) {
@@ -13,6 +14,7 @@ class Crawler {
         this.xVel = (Math.random() * 6) - 3;
         this.yVel = (Math.random() * 6) - 3;
         this.trail = [{x: this.x, y: this.y}];
+        this.trailColor = colors[Math.floor(Math.random() * colors.length)];
     }
 
     draw(ctx) {
@@ -24,12 +26,12 @@ class Crawler {
             ctx.lineTo(p.x, p.y);
         });
 
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = this.trailColor;
         ctx.stroke();
 
         // draw crawler
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 5, 0, 2 * Math.PI);
+        ctx.arc(this.x, this.y, 3, 0, 2 * Math.PI);
         ctx.fillStyle = 'white';
         ctx.fill();
     }

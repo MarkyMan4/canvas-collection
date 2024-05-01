@@ -8,7 +8,8 @@ let gridOffsetX = canvas.width / 2;
 let gridOffsetY = canvas.height / 2;
 let hexagons = [];
 
-const hexRadius = 50;
+const hexRadius = 50; // distance from center to a vertex
+const innerRadius = (Math.sqrt(3) * hexRadius) / 2; // distance from center to the center point of an edge
 
 window.addEventListener("resize", _ => {
     canvas.width = window.innerWidth;
@@ -17,6 +18,45 @@ window.addEventListener("resize", _ => {
     gridOffsetY = canvas.height / 2;   
 
     generateAndDrawHexagons();
+});
+
+document.addEventListener("mousemove", ev => {
+    let mx = ev.clientX;
+    let my = ev.clientY;
+
+    // find which hexagon the mouse is over, if any
+    let selectedHex;
+
+    for(let i = 0; i < hexagons.length; i++) {
+        // distance from mouse to center of hexagon
+        let distance = Math.sqrt(Math.pow(mx - hexagons[i].x, 2) + Math.pow(my - hexagons[i].y, 2));
+        if(distance <= innerRadius) {
+            selectedHex = hexagons[i];
+            break;
+        }
+    }
+
+    if(selectedHex !== undefined) {
+        for(let i = 0; i < hexagons.length; i++) {
+            if(hexagons[i] == selectedHex) {
+                hexagons[i].bg = "#6e6e6e";
+            }
+            else if(hexagons[i].q === selectedHex.q) {
+                hexagons[i].bg = "#a9c9b7";
+            }
+            else if(hexagons[i].r === selectedHex.r) {
+                hexagons[i].bg = "#cce6ff";
+            }
+            else if(hexagons[i].s === selectedHex.s) {
+                hexagons[i].bg = "#f7dff7";
+            }
+            else {
+                hexagons[i].bg = "#383838";
+            }
+        }
+
+        drawAllHexagons();
+    }
 });
 
 const drawHexagon = (hex) => {
@@ -34,9 +74,12 @@ const drawHexagon = (hex) => {
     }
 
     ctx.closePath();
+    ctx.fillStyle = hex.bg;
+    ctx.fill();
     ctx.strokeStyle = "white";
     ctx.stroke();
 
+    ctx.beginPath();
     ctx.font = "12px Courier New";
     ctx.textAlign = "center";
 
@@ -52,9 +95,15 @@ const drawHexagon = (hex) => {
     ctx.resetTransform();
 }
 
-const generateAndDrawHexagons = () => {
+const drawAllHexagons = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    hexagons.forEach(hex => {
+        drawHexagon(hex);
+    });
+}
+
+const generateAndDrawHexagons = () => {
     hexagons = [];
 
     // should be a better way to do this
@@ -67,15 +116,22 @@ const generateAndDrawHexagons = () => {
                     // hex to pixel calculation - https://www.redblobgames.com/grids/hexagons/#hex-to-pixel
                     let x = hexRadius * ((3/2) * q) + gridOffsetX;
                     let y = hexRadius * ((Math.sqrt(3) / 2) * q + Math.sqrt(3) * r) + gridOffsetY;
-                    hexagons.push({q: q, r: r, s: s, x: x, y: y});
+                    hexagons.push(
+                        {
+                            q: q, 
+                            r: r, 
+                            s: s, 
+                            x: x, 
+                            y: y, 
+                            bg: "#383838"
+                        }
+                    );
                 }
             }
         }
     }
 
-    hexagons.forEach(hex => {
-        drawHexagon(hex);
-    });
+    drawAllHexagons();
 }
 
 generateAndDrawHexagons();

@@ -32,7 +32,7 @@ class Quadtree {
     isPointInBounds(point) {
         return point.x >= this.boundingBox.x 
             && point.x < this.boundingBox.x + this.boundingBox.width
-            && point.y >= this.boundingBox.x
+            && point.y >= this.boundingBox.y
             && point.y < this.boundingBox.y + this.boundingBox.height;
     }
 
@@ -44,9 +44,9 @@ class Quadtree {
         let height = this.boundingBox.height;
 
         let nw = new Rectangle(x, y, width / 2, height / 2);
-        let ne = new Rectangle(width / 2, y, width / 2, height / 2);
-        let sw = new Rectangle(x, height / 2, width / 2, height / 2);
-        let se = new Rectangle(width / 2, height / 2, width / 2, height / 2);
+        let ne = new Rectangle(x + width / 2, y, width / 2, height / 2);
+        let sw = new Rectangle(x, y + height / 2, width / 2, height / 2);
+        let se = new Rectangle(x + width / 2, y + height / 2, width / 2, height / 2);
 
         this.northwest = new Quadtree(nw, this.capacity);
         this.northeast = new Quadtree(ne, this.capacity);
@@ -66,6 +66,7 @@ class Quadtree {
         else {
             // if at capacity, divide into sub quadtrees if we haven't already divided
             if(!this.isDivided) {
+                // TODO when making subtrees, pass points into those leaf nodes
                 this.makeSubtrees();
                 this.isDivided = true;
             }

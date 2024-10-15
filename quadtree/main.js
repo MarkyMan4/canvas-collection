@@ -4,7 +4,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let qt = new Quadtree(new Rectangle(0, 0, canvas.width, canvas.height), 4);
-for(let i = 0; i < 100; i++) {
+for(let i = 0; i < 300; i++) {
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height;
     qt.insert(new Point(x, y));

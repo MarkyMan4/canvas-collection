@@ -52,6 +52,15 @@ class Quadtree {
         this.northeast = new Quadtree(ne, this.capacity);
         this.southwest = new Quadtree(sw, this.capacity);
         this.southeast = new Quadtree(se, this.capacity);
+
+        // pass points down to child nodes, and this parent node no longer needs to store points
+        this.points.forEach(point => {
+            this.northwest.insert(point);
+            this.northeast.insert(point);
+            this.southwest.insert(point);
+            this.southeast.insert(point);
+        });
+        this.points = [];
     }
 
     insert(point) {
@@ -60,7 +69,7 @@ class Quadtree {
             return;
         }
 
-        if(this.points.length < this.capacity) {
+        if(this.points.length < this.capacity && !this.isDivided) {
             this.points.push(point);
         }
         else {

@@ -3,20 +3,14 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let qt = new Quadtree(new Rectangle(0, 0, canvas.width, canvas.height), 4);
-for(let i = 0; i < 300; i++) {
-    let x = Math.random() * canvas.width;
-    let y = Math.random() * canvas.height;
-    qt.insert(new Point(x, y));
+// initialize particles
+let particles = [];
 
-    // for debugging, draw the point
-    ctx.beginPath();
-    ctx.arc(x, y, 3, 0, 2 * Math.PI);
-    ctx.fillStyle = "MediumSeaGreen";
-    ctx.fill();
+for(let i = 0; i < 500; i++) {
+    let x = 5;
+    let y = 5;
+    particles.push(new Point(x, y));
 }
-
-console.log(qt);
 
 function drawQuadtree(quadtree) {
     if(quadtree === null) {
@@ -34,4 +28,30 @@ function drawQuadtree(quadtree) {
     drawQuadtree(quadtree.southeast);
 }
 
-drawQuadtree(qt);
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    let qt = new Quadtree(new Rectangle(0, 0, canvas.width, canvas.height), 4);
+    particles.forEach(p => {
+        qt.insert(p);
+        p.draw(ctx);
+        p.update();
+
+        // bounce particles off walls
+        if(p.x <= 0 || p.x >= canvas.width) {
+            p.xVel *= -1;
+        }
+
+        if(p.y <= 0 || p.y >= canvas.height) {
+            p.yVel *= -1;
+        }
+    });
+
+    drawQuadtree(qt);
+
+    // limit framerate to 60fps
+
+    window.setTimeout(() => requestAnimationFrame(animate), 1000 / 60);
+}
+
+animate();

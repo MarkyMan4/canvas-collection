@@ -2,6 +2,20 @@ class Point {
     constructor(x, y) {
         this.x = x;
         this.y = y;
+        this.xVel = Math.random() * 5 * (Math.random() < 0.5 ? -1 : 1);
+        this.yVel = Math.random() * 5 * (Math.random() < 0.5 ? -1 : 1);
+    }
+
+    draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, 0, 2 * Math.PI);
+        ctx.fillStyle = "MediumSeaGreen";
+        ctx.fill();
+    }
+
+    update() {
+        this.x += this.xVel;
+        this.y += this.yVel;
     }
 }
 
@@ -69,6 +83,8 @@ class Quadtree {
             return;
         }
 
+        // only insert if not at capacity and we haven't divided
+        // if divided, this quadtree's points array is empty so duplicate data isn't stored
         if(this.points.length < this.capacity && !this.isDivided) {
             this.points.push(point);
         }

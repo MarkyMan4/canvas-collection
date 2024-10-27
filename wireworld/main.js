@@ -12,7 +12,7 @@ const grid = new Grid(cellsAcross, cellsDown, cellSize);
 
 // listener for drawing
 window.addEventListener('mousedown', ev => {
-    console.log('clicked')
+    grid.handleClick(ev.clientX, ev.clientY);
 });
 
 function animate() {

@@ -85,6 +85,56 @@ class Grid {
         - conductor -> head if exactly one or two neighbors are heads, else stay conductor
     */
     update() {
+        let updateCells = [];
 
+        for(let i = 0; i < this.cellsDown; i++) {
+            let row = [];
+            for(let j = 0; j < this.cellsAcross; j++) {
+                let newState = EMPTY;
+
+                switch(this.cells[i][j]) {
+                case HEAD:
+                    newState = TAIL;
+                    break;
+                case TAIL:
+                    newState = CONDUCTOR;
+                    break;
+                case CONDUCTOR:
+                    let neighborHeads = this.getNeighborHeadCount(i, j);
+                    if(neighborHeads === 1 || neighborHeads === 2) {
+                        newState = HEAD
+                    }
+                    else {
+                        newState = CONDUCTOR;
+                    }
+                    break;
+                }
+
+                row.push(newState);
+            }
+            updateCells.push(row);
+        }
+
+        this.cells = updateCells;
+    }
+
+    /*
+    assumes position i, j is a conductor cell
+    finds the number of neighboring cells that are in the HEAD state
+    */
+    getNeighborHeadCount(i, j) {
+        // handle cells on the edge
+        let neighborHeads = 0;
+
+        if(i > 0 && this.cells[i - 1][j] === HEAD) neighborHeads++;
+        if(i > 0 && j < this.cellsAcross - 1 && this.cells[i - 1][j + 1] === HEAD) neighborHeads++;
+        if(j < this.cellsAcross - 1 && this.cells[i][j + 1] === HEAD) neighborHeads++;
+        if(i < this.cellsDown - 1 && j < this.cellsAcross - 1 && this.cells[i + 1][j + 1] === HEAD) neighborHeads++;
+        if(i < this.cellsDown - 1 && this.cells[i + 1][j] === HEAD) neighborHeads++;
+        if(i < this.cellsDown - 1 && j > 0 && this.cells[i + 1][j - 1] === HEAD) neighborHeads++;
+        if(j > 0 && this.cells[i][j - 1] === HEAD) neighborHeads++;
+        if(i > 0 && j > 0 && this.cells[i - 1][j - 1] === HEAD) neighborHeads++;
+
+        return neighborHeads;
     }
 }

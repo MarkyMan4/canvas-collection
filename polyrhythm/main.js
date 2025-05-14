@@ -13,7 +13,7 @@ class Ball {
         this.distFromCenter = distFromCenter;
         this.radius = radius;
         this.angle = 0;
-        this.angleDelta = (Math.PI / 180) * (5 - (distFromCenter * 0.01));
+        this.angleDelta = (Math.PI / 180) * (1 - ((distFromCenter / (radius * 2)) * 0.02));
     }
 
     draw(ctx) {
@@ -32,11 +32,11 @@ class Ball {
 }
 
 let balls = [];
+const BALL_RADIUS = 5;
 
-for(let i = 0; i < canvas.height / 2; i += 10) {
-    balls.push(new Ball(canvas.width / 2, canvas.height / 2, i, 5));
+for(let i = BALL_RADIUS * 2; i < canvas.height / 2; i += BALL_RADIUS * 2) {
+    balls.push(new Ball(canvas.width / 2, canvas.height / 2, i, BALL_RADIUS));
 }
-// balls.push(new Ball(canvas.width / 2, canvas.height / 2, 100, 10));
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -45,11 +45,6 @@ function animate() {
         b.draw(ctx);
         b.update();
     });
-
-    ctx.beginPath();
-    ctx.arc(canvas.width / 2, canvas.height / 2, 2, 0, 2 * Math.PI);
-    ctx.fillStyle = "white";
-    ctx.fill();
 
     requestAnimationFrame(animate);
 }
